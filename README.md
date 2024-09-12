@@ -5,6 +5,7 @@ For Prometheus do the configuration in the file **/etc/prometheus/prometheus.yml
 ![image](https://github.com/user-attachments/assets/1dc49c87-8bf7-488f-b971-5620087ae0d5)
 
 The dashboard of prometheus can be seen as below.
+![image](https://github.com/user-attachments/assets/8e60a383-5e2b-478a-90f9-78c92e22d6bf)
 ![image](https://github.com/user-attachments/assets/c29974c3-0b32-4a00-a579-0325eef8c4e3)
 
 
