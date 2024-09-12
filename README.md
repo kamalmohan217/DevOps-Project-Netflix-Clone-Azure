@@ -3,6 +3,7 @@
 
 For Prometheus do the configuration in the file **/etc/prometheus/prometheus.yml** as shown below.
 ![image](https://github.com/user-attachments/assets/1dc49c87-8bf7-488f-b971-5620087ae0d5)
+![image](https://github.com/user-attachments/assets/c29974c3-0b32-4a00-a579-0325eef8c4e3)
 
 
 ```
