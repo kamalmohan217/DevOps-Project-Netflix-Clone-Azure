@@ -1,0 +1,93 @@
+trigger:
+- main
+
+pool:
+  name: demo
+  demands:
+  - agent.name -equals demo
+
+variables:
+  imagePullSecret: 'netflix-clone-auth'
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    displayName: Build
+    workspace:
+      clean: all
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: 'sonar-scanner -Dsonar.projectKey=netflix-clone -Dsonar.projectName=netflix-clone -Dsonar.qualitygate.wait=true -Dsonar.host.url=http://20.XXX.XX.126:9000 -Dsonar.login=squ_fa10d6e0eXXXXXXXXXXXXXXXXXXXXb7cba75c68c'
+- stage: "InstallDependencies"
+  displayName: InstallDependencies
+  dependsOn: Build
+  jobs:
+  - job: "InstallDependencies"
+    displayName: InstallDependencies
+    steps: 
+    - checkout: none
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: '.'
+    - task: CmdLine@2
+      inputs:
+        script: 'dependency-check.sh --disableYarnAudit --disableNodeAudit --scan . --out .'
+    - task: CmdLine@2
+      inputs:
+        script: 'trivy fs . > /home/demo/trivy-filescan.txt'
+- stage: DockerImageBuild
+  displayName: DockerImageBuild
+  dependsOn: "InstallDependencies"
+  jobs:
+  - job: DockerImageBuild
+    displayName: DockerImageBuild
+    steps:
+    - checkout: none
+    - task: CmdLine@2
+      inputs:
+        script: |
+          docker system prune -f --all
+          docker build --build-arg TMDB_V3_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -t demoimage:1.05 .
+          docker tag demoimage:1.05 netflixcontainer24registry.azurecr.io/samplewebapp:$(Build.BuildId)
+          trivy image --exit-code 0 --severity MEDIUM,HIGH netflixcontainer24registry.azurecr.io/samplewebapp:$(Build.BuildId)
+          #trivy image --exit-code 1 --severity CRITICAL netflixcontainer24registry.azurecr.io/samplewebapp:$(Build.BuildId)
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker-Registry'
+        repository: 'samplewebapp'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        arguments: '--build-arg TMDB_V3_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker-Registry'
+        repository: 'samplewebapp'
+        command: 'push'
+- stage: KubernetesDeployment
+  displayName: KubernetesDeployment
+  dependsOn: DockerImageBuild
+  jobs:
+  - deployment: KubernetesDeployment
+    displayName: KubernetesDeployment
+    environment: "dev"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none 
+          - task: HelmDeploy@1
+            inputs:
+              connectionType: 'Azure Resource Manager'
+              azureSubscription: 'Azure DevOps Service Connection'
+              azureResourceGroup: 'netflix-rg'
+              kubernetesCluster: 'netflix-cluster'
+              namespace: 'netflix'
+              command: 'upgrade'
+              chartType: 'FilePath'
+              chartPath: '/home/demo/helm-repo-for-netflix-clone/folo'
+              releaseName: 'netflix-clone'
+              overrideValues: 'imagePullSecrets[0].name=netflix-clone-auth,image.repository=netflixcontainer24registry.azurecr.io/samplewebapp,image.tag=$(Build.BuildId),replicaCount=2,service.type=ClusterIP,service.port=80'
