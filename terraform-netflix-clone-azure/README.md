@@ -13,5 +13,5 @@ To create Application Gateway Ingress Controller make sure the Managed Identity 
 <br><br/>
 Please provide the information in the terraform script as wriiten below
 1. Use your own .pfx file in main directory and provide it's password in file module/application-gateway.tf.
-2. Provide public SSH key in the files custom_data_devopsagent.sh and custom_data_sonarqube.sh.
+2. Provide public SSH key in the files custom_data_devopsagent.sh, custom_data_sonarqube.sh, custom_data_prometheus.sh and custom_data_grafana.sh.
 3. Provide tenant id and subscription id in the file provider.tf.
