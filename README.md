@@ -40,11 +40,15 @@ The entry for DNS Zone is shown in the screenshot attached below.
 Finally you can access the application as shown below.
 ![image](https://github.com/user-attachments/assets/e4ae89ac-9a71-40a7-b6b1-36724ee34b3f)
 
+To see the Azure DevOps Pipeline Rate and Pipeline Duration, please follow the procedure as shown in the screenshots below.
+![image](https://github.com/user-attachments/assets/6e45d025-31ef-40c9-895c-f76b1abd98f8)
+![image](https://github.com/user-attachments/assets/9a0eb187-26fb-47df-84f8-dd51e80cde57)
+![image](https://github.com/user-attachments/assets/913776cc-3a6e-4997-86c9-4bc49cf45e59)
 
 ```
 The netflix-clone-auth secrets for kubernetes can be created using the command below
 
-kubectl create secret netflix-clone-auth --docker-server=https://netflixcontainer24registry.azurecr.io --docker-username=netflixcontainer24registry --docker-password=XXXXXXXXXXXXXXXXXXXXXXXXXXXOJ7eXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMtTc -n netflix
+kubectl create secret docker-registry netflix-clone-auth --docker-server=https://netflixcontainer24registry.azurecr.io --docker-username=netflixcontainer24registry --docker-password=XXXXXXXXXXXXXXXXXXXXXXXXXXXOJ7eXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXMtTc -n netflix
 ```
 
 <br><br/>
