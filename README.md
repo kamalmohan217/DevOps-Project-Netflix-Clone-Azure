@@ -44,6 +44,9 @@ To see the Azure DevOps Pipeline Rate and Pipeline Duration, please follow the p
 ![image](https://github.com/user-attachments/assets/6e45d025-31ef-40c9-895c-f76b1abd98f8)
 ![image](https://github.com/user-attachments/assets/9a0eb187-26fb-47df-84f8-dd51e80cde57)
 ![image](https://github.com/user-attachments/assets/913776cc-3a6e-4997-86c9-4bc49cf45e59)
+![image](https://github.com/user-attachments/assets/de8a888b-df59-4e31-93de-fb27b1be236f)
+![image](https://github.com/user-attachments/assets/977f4c5f-5cae-4b32-ade8-1052a4b59c1f)
+![image](https://github.com/user-attachments/assets/cb27caf7-c804-42dc-8e69-f5fd98c7ef79)
 
 ```
 The netflix-clone-auth secrets for kubernetes can be created using the command below
