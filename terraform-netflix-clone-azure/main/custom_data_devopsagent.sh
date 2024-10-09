@@ -38,7 +38,7 @@ unzip dependency-check-8.4.0-release.zip
 rm -f dependency-check-8.4.0-release.zip
 chown -R demo:demo /opt/dependency-check
 cd /opt && curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.38.3
-echo JAVA_HOME="/usr/lib/jvm/jdk-17-oracle-x64" >> /home/demo/.bashrc
+echo JAVA_HOME="/usr/lib/jvm/java-17-openjdk-17.0.12.0.7-2.el8.x86_64" >> /home/demo/.bashrc
 echo PATH="$PATH:$JAVA_HOME/bin:/opt/sonar-scanner/bin:/opt/apache-maven/bin:/opt/node-v16.0.0/bin:/opt/dependency-check/bin:/usr/local/bin" >> /home/demo/.bashrc
 echo "demo  ALL=(ALL)  NOPASSWD:ALL" >> /etc/sudoers 
 yum install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
